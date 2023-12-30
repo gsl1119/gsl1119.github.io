@@ -4,15 +4,9 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="堆栈内存及函数底层处理机制, Hexo">
-    <meta name="description" content="堆栈内存及函数底层处理机制一、0.1+0.2 !&amp;#x3D; 0.3 的问题
-十进制转换为二进制的计算 n.toString(2)​
-
-整数部分
-小数部分
-
-
-JS 使用Number​ 类型表示数字（整数和浮点数），遵循 IEEE-754 ">
+    <meta name="keywords" content="test-img, Hexo">
+    <meta name="description" content="
+">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -24,7 +18,7 @@ JS 使用Number​ 类型表示数字（整数和浮点数），遵循 IEEE-754 
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>堆栈内存及函数底层处理机制 | Hexo</title>
+    <title>test-img | Hexo</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -341,12 +335,12 @@ JS 使用Number​ 类型表示数字（整数和浮点数），遵循 IEEE-754 
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">堆栈内存及函数底层处理机制</h1>
+                    <h1 class="description center-align post-title">test-img</h1>
                 </div>
             </div>
         </div>
@@ -375,15 +369,6 @@ JS 使用Number​ 类型表示数字（整数和浮点数），遵循 IEEE-754 
                 </div>
                 <div class="col s5 right-align">
                     
-                    <div class="post-cate">
-                        <i class="fas fa-bookmark fa-fw icon-category"></i>
-                        
-                            <a href="/categories/JS/" class="post-category">
-                                JS
-                            </a>
-                        
-                    </div>
-                    
                 </div>
             </div>
 
@@ -391,7 +376,7 @@ JS 使用Number​ 类型表示数字（整数和浮点数），遵循 IEEE-754 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2023-12-27
+                    2023-12-30
                 </div>
                 
 
@@ -415,155 +400,7 @@ JS 使用Number​ 类型表示数字（整数和浮点数），遵循 IEEE-754 
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="堆栈内存及函数底层处理机制"><a href="#堆栈内存及函数底层处理机制" class="headerlink" title="堆栈内存及函数底层处理机制"></a>堆栈内存及函数底层处理机制</h1><h4 id="一、0-1-0-2-0-3-的问题"><a href="#一、0-1-0-2-0-3-的问题" class="headerlink" title="一、0.1+0.2 !&#x3D; 0.3 的问题"></a>一、0.1+0.2 !&#x3D; 0.3 的问题</h4><ol>
-<li><p>十进制转换为二进制的计算 <code>n.toString(2)</code>​</p>
-<ul>
-<li>整数部分</li>
-<li>小数部分</li>
-</ul>
-</li>
-<li><p>JS 使用<code>Number</code>​ 类型表示数字（整数和浮点数），遵循 IEEE-754 标准 通过 64 位二进制值来表示一个数字</p>
-<p>第 0 位：符号位，0 表示整数，1 表示负数<code>S</code>​。</p>
-<p>第 1 位到第 11 位<code> 11位指数</code>​：储存指数部分<code>E</code>​。</p>
-<p>第 12 位到第 63 位 <code>52位尾数</code>​：储存小鼠部分（即有效数字）<code>F</code>​</p>
-<p>注：尾数部分再规约形成下第一位默认为 1（省略不写）</p>
-</li>
-<li><p>最大安全数字<code>16位</code>​：​<code>Number.MAX_SAFE_INTEGER === Math.pow(2,53)-1</code>​</p>
-</li>
-<li><p>怎么解决精度问题：</p>
-<ul>
-<li>将数字转为证书<code>扩大系数</code>​</li>
-<li>第三方库：<code>Math.js, decimal.js, big.js,...</code></li>
-</ul>
-</li>
-</ol>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// JS中有关于小数(浮点数)的计算会出现精准度丢失的问题</span>
-<span class="token comment">//   + JS中所有值都是以2进制在计算机底层进行存储的&#123;浮点数转为二进制，可能出现无限循环的情况&#125;</span>
-<span class="token comment">//   + 在计算机底层存储的时候，最多存储64位「舍弃了一些值，值本身就失去了精准度」</span>
-<span class="token comment">// 浮点数计算的解决方案：</span>
-<span class="token comment">//   @1 toFixed保留小数点后面N位，他自己会四舍五入 (直接调用即可)</span>
-<span class="token comment">//   @2 扩大系数法</span>
-<span class="token keyword">const</span> <span class="token function-variable function">coefficient</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token function">coefficient</span><span class="token punctuation">(</span><span class="token parameter">num</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-  num <span class="token operator">=</span> num <span class="token operator">+</span> <span class="token string">""</span><span class="token punctuation">;</span>
-  <span class="token keyword">let</span> <span class="token punctuation">[</span><span class="token punctuation">,</span> char <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">]</span> <span class="token operator">=</span> num<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">"."</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-    len <span class="token operator">=</span> char<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
-  <span class="token keyword">return</span> Math<span class="token punctuation">.</span><span class="token function">pow</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> len<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//-> 10**len</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> <span class="token function-variable function">plus</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token function">plus</span><span class="token punctuation">(</span><span class="token parameter">num1<span class="token punctuation">,</span> num2</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-  num1 <span class="token operator">=</span> <span class="token operator">+</span>num1<span class="token punctuation">;</span>
-  num2 <span class="token operator">=</span> <span class="token operator">+</span>num2<span class="token punctuation">;</span>
-  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isNaN</span><span class="token punctuation">(</span>num1<span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token function">isNaN</span><span class="token punctuation">(</span>num2<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token number">NaN</span><span class="token punctuation">;</span>
-  <span class="token keyword">let</span> max <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">max</span><span class="token punctuation">(</span><span class="token function">coefficient</span><span class="token punctuation">(</span>num1<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">coefficient</span><span class="token punctuation">(</span>num2<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token keyword">return</span> <span class="token punctuation">(</span>num1 <span class="token operator">*</span> max <span class="token operator">+</span> num2 <span class="token operator">*</span> max<span class="token punctuation">)</span> <span class="token operator">/</span> max<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">plus</span><span class="token punctuation">(</span><span class="token number">0.1</span><span class="token punctuation">,</span> <span class="token number">0.2</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h4 id="二、a-1-a-2-a-3-同时成立问题"><a href="#二、a-1-a-2-a-3-同时成立问题" class="headerlink" title="二、a &#x3D;&#x3D; 1 &amp;&amp; a &#x3D;&#x3D; 2 &amp;&amp; a &#x3D;&#x3D; 3 同时成立问题"></a>二、a &#x3D;&#x3D; 1 &amp;&amp; a &#x3D;&#x3D; 2 &amp;&amp; a &#x3D;&#x3D; 3 同时成立问题</h4><ol>
-<li><p>​<code>==</code>​ 的转换数据类型规则</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 利用==比较会转换数据类型，而对象转数字会经历一个详细步骤「Symbol.toPrimitive->valueOf->toString...」</span>
- <span class="token keyword">var</span> a <span class="token punctuation">&#123;</span>
-     <span class="token literal-property property">i</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
-     <span class="token punctuation">[</span>Symbol<span class="token punctuation">.</span><span class="token function">toPrimirival</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">&#123;</span>
-         <span class="token comment">// this->a</span>
-         <span class="token keyword">return</span> <span class="token operator">++</span><span class="token keyword">this</span><span class="token punctuation">.</span>i
-     <span class="token punctuation">&#125;</span>
- <span class="token punctuation">&#125;</span>
- <span class="token keyword">if</span><span class="token punctuation">(</span>a <span class="token operator">==</span> <span class="token number">1</span> <span class="token operator">&amp;&amp;</span> a <span class="token operator">==</span> <span class="token number">2</span> <span class="token operator">&amp;&amp;</span> a <span class="token operator">==</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
-     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"OK"</span><span class="token punctuation">)</span>
- <span class="token punctuation">&#125;</span>
-
- <span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span>
- a<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span> a<span class="token punctuation">.</span><span class="token function">shift</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
- <span class="token keyword">if</span><span class="token punctuation">(</span>a <span class="token operator">==</span> <span class="token number">1</span> <span class="token operator">&amp;&amp;</span> a <span class="token operator">==</span> <span class="token number">2</span> <span class="token operator">&amp;&amp;</span> a <span class="token operator">==</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
-     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"OK"</span><span class="token punctuation">)</span>
- <span class="token punctuation">&#125;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
-<li><p>全局上下文</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 全局上下文中，获取a的值：首先看VO(G)中有没有，没有再继续去GO(window)中查找</span>
-<span class="token keyword">var</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-Object<span class="token punctuation">.</span><span class="token function">defineProperty</span><span class="token punctuation">(</span>window<span class="token punctuation">,</span> <span class="token string">"a"</span><span class="token punctuation">,</span> <span class="token punctuation">&#123;</span>
-  <span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token keyword">return</span> <span class="token operator">++</span>i<span class="token punctuation">;</span>
-  <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">if</span> <span class="token punctuation">(</span>a <span class="token operator">===</span> <span class="token number">1</span> <span class="token operator">&amp;&amp;</span> a <span class="token operator">===</span> <span class="token number">2</span> <span class="token operator">&amp;&amp;</span> a <span class="token operator">===</span> <span class="token number">3</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"OK"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-</ol>
-<h4 id="三、全局上下文细节"><a href="#三、全局上下文细节" class="headerlink" title="三、全局上下文细节"></a>三、全局上下文细节</h4><p><img src="/.com//image-20231225145620-3krzwii.png"></p>
-<h4 id="四、堆栈内存的处理"><a href="#四、堆栈内存的处理" class="headerlink" title="四、堆栈内存的处理"></a>四、堆栈内存的处理</h4><p><img src="/.com//image-20231225145711-kbzbjra.png" alt="image"></p>
-<h4 id="五、函数底层处理"><a href="#五、函数底层处理" class="headerlink" title="五、函数底层处理"></a>五、函数底层处理</h4><p><img src="/.com//image-20231225145745-u47ed4t.png" alt="image"></p>
-<h4 id="六、变量提升"><a href="#六、变量提升" class="headerlink" title="六、变量提升"></a>六、变量提升</h4><p>在当前上下文中，代码执行之前，浏览器首先会把所有带<code>var/function</code>​ 关键字的进行提前声明或者定义，带<code>var</code>​ 的只是提前声明，带<code>function</code>​ 的，此阶段声明+定义（赋值）都完成。</p>
-<ul>
-<li><p>​<code>let/const/import/class</code>​ 声明的变量不存在变量提升。</p>
-</li>
-<li><p>重复声明的问题</p>
-</li>
-<li><p>推荐使用函数表达式，确保函数执行只能放在“创建函数”下面，保证逻辑严谨性。</p>
-</li>
-<li><p>条件判断：在当前上下文中，变量提升阶段，不论条件是否成立，都要进行变量提升。</p>
-<ul>
-<li>​<code>var</code>​：还是只声明</li>
-<li>​<code>function</code>​：判断体中的函数，在变量提升阶段，只声明不赋值。</li>
-</ul>
-</li>
-</ul>
-<ol>
-<li><p>​<code>var/let</code>​ 声明</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">/*
- EC(G)全局执行上下文
-  VO(G)/GO
-   a->12
-   变量提升：var a;
-   代码执行：
-*/</span>
-<span class="token comment">// 其实最开始浏览器从服务器端获取的JS都是文本(字符串)，只不过声明了其格式是Content-Type:application/javascript，浏览器首先按照这个格式去解析代码->“词法解析”阶段(目标是生成“AST语法解析树”)</span>
-<span class="token comment">// 基于let/const等声明的变量：在词法解析阶段，其实就已经明确了，未来在此上下文中，必然会存在这些变量；代码执行中，如果出现在具体声明的代码之前使用这些变量，浏览器会抛出错误。</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// undefined</span>
-<span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">12</span><span class="token punctuation">;</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Uncaught ReferenceError:Cannt access 'b' before initialization</span>
-<span class="token keyword">let</span> b <span class="token operator">=</span> <span class="token number">12</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
-<li><p>​<code>function</code>​ 声明</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">/*
- EC(G)全局执行上下文
-  VO(G)/GO
-   fn->oxoo1 [[scope]]:EC(G)
-     ->0x002 [[scope]]:EC(G)
-     ->12
-  变量提升：
-    function fn()&#123;console.log(1)&#125;
-    var fn // 上下文已经存在fn变量了，不会重复声明
-    function fn() &#123;console.log(2)&#125;
-*/</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>fn<span class="token punctuation">)</span> <span class="token comment">// function->2</span>
-funvtion <span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">&#125;</span> <span class="token comment">// 跳过变量提升阶段已经处理过了</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>fn<span class="token punctuation">)</span> <span class="token comment">// function->2</span>
-<span class="token keyword">var</span> fn <span class="token operator">=</span> <span class="token number">12</span>  <span class="token comment">// 跳过var fn操作，但是赋值的操作在变量提升阶段没有做过，需要执行</span>
-<span class="token keyword">function</span> <span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">&#125;</span> <span class="token comment">// 跳过</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>fn<span class="token punctuation">)</span> <span class="token comment">// 12</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
-<li><p>​<code>window</code>​ 全局上下文以及<code>if</code>​ 判断</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">/*
- EC(G)全局执行上下文
-  VO(G)/GO
-   a
-   变量提升：不论条件是否成立，都要进行变量提升（对于var来讲新老版本浏览器没有任何影响，但是对于判断题中出现function来讲，新老版本表现不一样：老版本函还是会声明+定义；新版本：函数只会声明，不在定义）
-   代码执行：
-*/</span>
-
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// undefined</span>
-<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token string">"a"</span> <span class="token keyword">in</span> window<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-  <span class="token comment">// 'a' in window True</span>
-  <span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">13</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// undefined</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>‍</p>
-</li>
-</ol>
-<p>‍</p>
+                <p><img src="/.com//image-20231225145620-3krzwii.png"></p>
 
                 
             </div>
@@ -590,7 +427,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://example.com/2023/12/27/%E5%A0%86%E6%A0%88%E5%86%85%E5%AD%98%E5%8F%8A%E5%87%BD%E6%95%B0%E5%BA%95%E5%B1%82%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6/">http://example.com/2023/12/27/%E5%A0%86%E6%A0%88%E5%86%85%E5%AD%98%E5%8F%8A%E5%87%BD%E6%95%B0%E5%BA%95%E5%B1%82%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6/</a>
+                    <a href="http://example.com/2023/12/30/test-img/">http://example.com/2023/12/30/test-img/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -704,17 +541,18 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2023/12/27/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%8F%8A%E5%85%B6%E8%BD%AC%E6%8D%A2%E8%A7%84%E5%88%99/">
+                <a href="/2023/12/30/test-img/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="数据类型及其转换规则">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="test-img">
                         
-                        <span class="card-title">数据类型及其转换规则</span>
+                        <span class="card-title">test-img</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -724,21 +562,18 @@ console<span class="token punctuation">.</span><span class="token function">log<
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2023-12-27
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-12-30
+                            </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/JS/" class="post-category">
-                                    JS
-                                </a>
-                            
+                            <i class="fas fa-user fa-fw"></i>
+                            John Doe
                             
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -749,13 +584,13 @@ console<span class="token punctuation">.</span><span class="token function">log<
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2023/12/27/hello-world/">
+                <a href="/2023/12/27/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%8F%8A%E5%85%B6%E8%BD%AC%E6%8D%A2%E8%A7%84%E5%88%99/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="数据类型及其转换规则">
                         
-                        <span class="card-title">Hello World</span>
+                        <span class="card-title">数据类型及其转换规则</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
